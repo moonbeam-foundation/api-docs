@@ -1,0 +1,348 @@
+openapi: 3.0.3
+info:
+  title: Moonbeam App Directory API
+  description: This API allows you to retrieve information about projects listed in the Moonbeam app directory.
+  version: 1.0.0
+servers:
+  - url: https://apps.moonbeam.network/api/ds/v1
+    description: Moonbeam App Directory API
+
+paths:
+  /app-dir/projects/{projectId}:
+    get:
+      summary: Get details for a specific project
+      operationId: getProjectDetails
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          description: The ID or slug of the project (e.g., "moonwell").
+          schema:
+            type: string
+            example: moonwell
+      responses:
+        '200':
+          description: Details of the specified project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppDirOneProjectResponse'
+
+  /app-dir/projects:
+    get:
+      summary: Get list of projects
+      operationId: getProjects
+      parameters:
+        - in: query
+          name: featured
+          schema:
+            type: boolean
+          description: Filter by featured projects
+          example: true
+        - in: query
+          name: chain
+          schema:
+            type: string
+            example: moonbeam
+          description: Filter by blockchain network (e.g., moonbeam)
+        - in: query
+          name: category
+          schema:
+            type: string
+            example: dex
+          description: Filter by category (e.g., dex)
+      responses:
+        '200':
+          description: A list of projects matching the query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppDirProjectsResponse'
+
+components:
+  schemas:
+    AppDirProjectsResponse:
+      type: object
+      properties:
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppDirProject'
+        count:
+          type: integer
+          example: 10
+
+    AppDirOneProjectResponse:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/AppDirProject'
+
+    AppDirProject:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "moonwell"
+        slug:
+          type: string
+          example: "moonwell"
+        moonbeam:
+          type: integer
+          enum: [0, 1]
+          example: 1
+        moonriver:
+          type: integer
+          enum: [0, 1]
+          example: 1
+        chains:
+          type: array
+          items:
+            type: string
+          example: ["moonbeam", "moonriver"]
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - review
+            - archived
+            - deleted
+          example: "active"
+        shortDescription:
+          type: string
+          example: "Lending, borrowing, and DeFi protocol built on Moonbeam and Moonriver"
+        defiLLamaTvlExist:
+          type: boolean
+          example: true
+        defiLLamaId:
+          type: string
+          example: "moonwell"
+        description:
+          type: string
+          example: "Moonwell is an open lending, borrowing, and decentralized finance protocol built on Moonbeam and Moonriver."
+        name:
+          type: string
+          example: "Moonwell Apollo"
+        featured:
+          type: boolean
+          example: true
+        coinGeckoId:
+          type: string
+          example: "moonwell"
+        currentTVL:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        tvlChange1d:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        tvlChange7d:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        currentTx:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        currentUsers:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        usersChange1d:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        usersChange7d:
+          $ref: '#/components/schemas/ProjectValuesByChain'
+        logo:
+          $ref: '#/components/schemas/ProjectImagesSizes'
+        screenshots:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectImagesSizes'
+        category:
+          type: string
+          enum:
+            - defi
+            - dex
+            - bridges
+            - lending
+            - nfts
+            - gaming
+            - social
+            - wallets
+            - dao
+            - other
+          example: "lending"
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["Lending", "DeFi"]
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartContract'
+        web3goContracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartContract'
+        urls:
+          $ref: '#/components/schemas/Urls'
+        marketData:
+          $ref: '#/components/schemas/MarketData'
+        web3goIDs:
+          type: array
+          items:
+            type: string
+          example: ["Moonwell"]
+        projectCreationDate:
+          type: integer
+          example: 1644828523000
+
+    ProjectValuesByChain:
+      type: object
+      properties:
+        moonbeam:
+          type: number
+          format: float
+          example: 3209688.69615
+        moonriver:
+          type: number
+          format: float
+          example: 2560799.30857
+
+    ProjectImagesSizes:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/ProjectImage'
+        large:
+          $ref: '#/components/schemas/ProjectImage'
+        full:
+          $ref: '#/components/schemas/ProjectImage'
+
+    ProjectImage:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: "moonwell-logo-small.jpeg"
+        width:
+          type: integer
+          example: 36
+        height:
+          type: integer
+          example: 36
+        mimeType:
+          type: string
+          example: "image/jpeg"
+
+    MarketData:
+      type: object
+      properties:
+        contracts:
+          type: object
+          properties:
+            moonbeam:
+              type: string
+              example: "0x0e358838ce72d5e61e0018a2ffac4bec5f4c88d2"
+            moonriver:
+              type: string
+              example: "0xbb8d88bcd9749636bc4d2be22aac4bb3b01a58f1"
+        symbol:
+          type: string
+          example: "mfam"
+        currentPrice:
+          type: number
+          format: float
+          example: 0.00096857
+        marketCapRank:
+          type: integer
+          example: 3216
+        marketCap:
+          type: number
+          format: float
+          example: 536929
+        marketCapChangePercentage24h:
+          type: number
+          format: float
+          example: 4.7183
+        priceChange24h:
+          type: number
+          format: float
+          example: 0.00003947
+        priceChangePercentage24h:
+          type: number
+          format: float
+          example: 4.24805
+        priceChangePercentage7d:
+          type: number
+          format: float
+          example: -16.28276
+        priceChangePercentage14d:
+          type: number
+          format: float
+          example: 0.83908
+        priceChangePercentage30d:
+          type: number
+          format: float
+          example: -3.40132
+        priceChangePercentage60d:
+          type: number
+          format: float
+          example: -4.6876
+        priceChangePercentage200d:
+          type: number
+          format: float
+          example: -38.01041
+        priceChangePercentage1y:
+          type: number
+          format: float
+          example: 88.4036
+        marketCapChange24h:
+          type: number
+          format: float
+          example: 24192
+
+    SmartContract:
+      type: object
+      properties:
+        contract:
+          type: string
+          example: "0x0e358838ce72d5e61e0018a2ffac4bec5f4c88d2"
+        chain:
+          type: string
+          example: "moonbeam"
+        name:
+          type: string
+          example: "StellaSwap: stDOT Oracle Master"
+
+    Urls:
+      type: object
+      properties:
+        website:
+          type: string
+          example: "https://stellaswap.com/"
+        try:
+          type: string
+          example: "https://stellaswap.com/"
+        twitter:
+          type: string
+          example: "https://twitter.com/StellaSwap"
+        medium:
+          type: string
+          example: "https://stellaswap.medium.com/"
+        telegram:
+          type: string
+          example: "https://t.me/stellaswap"
+        github:
+          type: string
+          example: "https://github.com/stellaswap"
+        discord:
+          type: string
+          example: "https://discord.gg/moonwellfi"
+        others:
+          type: array
+          items:
+            $ref: '#/components/schemas/Other'
+
+    Other:
+      type: object
+      properties:
+        platform:
+          type: string
+          example: "Reddit"
+        link:
+          type: string
+          example: "https://reddit.com/r/stellaswap"
