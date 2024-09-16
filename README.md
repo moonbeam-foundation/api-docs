@@ -2,9 +2,9 @@
 
 This repository contains the API documentation for the Moonbeam.
 
-# APIs
+## APIs
 
-## App Directory API
+### App Directory API
 
 The App Directory API allows you to retrieve information about projects listed in the Moonbeam App Directory.
 
