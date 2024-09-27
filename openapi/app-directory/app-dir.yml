@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Moonbeam App Directory API
   description: This API allows you to retrieve information about projects listed in the Moonbeam app directory.
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: https://apps.moonbeam.network/api/ds/v1
     description: Moonbeam App Directory API
@@ -227,6 +227,9 @@ components:
         mimeType:
           type: string
           example: "image/jpeg"
+        url:
+          type: string
+          example: "https://raw.githubusercontent.com/moonbeam-foundation/app-directory-data/refs/heads/main/projects/moonwell/logos/moonwell-logo-full.jpeg"
 
     MarketData:
       type: object
