@@ -10,4 +10,4 @@ The App Directory API allows you to retrieve information about projects listed i
 
 OpenAPI spec: [app-dir.yml](./openapi/app-directory/app-dir.yml)
 
-Docs can be found at: [https://app.swaggerhub.com/apis/Moonbeam/app_directory_api/1.0.0](https://app.swaggerhub.com/apis/Moonbeam/app_directory_api/1.0.0)
+Docs can be found at: [https://app.swaggerhub.com/apis/Moonbeam/app_directory_api](https://app.swaggerhub.com/apis/Moonbeam/app_directory_api)
