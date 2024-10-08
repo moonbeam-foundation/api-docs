@@ -63,7 +63,6 @@ paths:
               - wallets
               - dao
               - other
-            example: dex
           description: Filter by category (e.g., dex)
         - in: query
           name: status
@@ -75,9 +74,7 @@ paths:
               - review
               - archived
               - deleted
-            example: dex
-            default: active
-          description: Filter by status (e.g., active, deleted)
+          description: Filter by status (e.g., active, deleted). If nothing is selected then it will return active projects.
       responses:
         '200':
           description: A list of projects matching the query parameters.
