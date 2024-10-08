@@ -43,14 +43,41 @@ paths:
           name: chain
           schema:
             type: string
+            enum:
+              - moonbeam
+              - moonriver
             example: moonbeam
           description: Filter by blockchain network (e.g., moonbeam)
         - in: query
           name: category
           schema:
             type: string
+            enum:
+              - defi
+              - dex
+              - bridges
+              - lending
+              - nfts
+              - gaming
+              - social
+              - wallets
+              - dao
+              - other
             example: dex
           description: Filter by category (e.g., dex)
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+              - review
+              - archived
+              - deleted
+            example: dex
+            default: active
+          description: Filter by status (e.g., active, deleted)
       responses:
         '200':
           description: A list of projects matching the query parameters.
